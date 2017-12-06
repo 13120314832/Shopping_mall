@@ -68,10 +68,7 @@
                       <!-- 左侧 -->
                       <div class="Bin_Cfn_Body_Content_Left">
                         <div class="">
-                            <p>红色</p>
-                        </div>
-                        <div class="">
-                            <p>蓝色</p>
+                            <p id="Left_Color">红色</p>
                         </div>
                       </div>
                       <!-- 右侧 -->
@@ -387,13 +384,18 @@ ul li span{
   float: left;
   border-right: 1px solid #cccccc;    
   border-bottom: 1px solid #cccccc; 
-  height: 200px;
+  height: 123px;
 }
 .Bin_Cfn_Body_Content_Left div{
   width: 100%;
-  height: 30px;
+  height: 123px;
+  /* 30 61 92 123 */  
   text-align: center;
   border-bottom: 1px solid #cccccc;      
+}
+#Left_Color{
+  line-height: 123px;
+  /* 30 61 92 123 */
 }
 .Bin_Cfn_Body_Content div p{
   font-size: 12px;
@@ -480,7 +482,7 @@ ul li span{
   margin-left:14px; 
 }
 .Right_Edit span{
-  margin: 11px 22px 5px 22px;
+  margin: 11px 22px 5px 0px;
   color: #246ab9;
 }
 .Right_Edit div:nth-child(3) span{
