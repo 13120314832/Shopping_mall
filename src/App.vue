@@ -1,19 +1,23 @@
 <template>
   <div id="app">
-    <Left/>
-    <HelloWorld/>
+    <Left></Left>
+    <HelloWorld>
+      <!-- <CfnBody></CfnBody> -->
+    </HelloWorld>
   </div>
 </template>
 
 <script>
 import HelloWorld from './components/HelloWorld'
 import Left from './components/Left'
+import CfnBody from './components/CfnBody'
 
 export default {
   name: 'app',
   components: {
     HelloWorld,
-    Left
+    Left,
+    CfnBody,
   }
 }
 </script>
