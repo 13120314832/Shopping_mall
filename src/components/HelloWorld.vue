@@ -20,7 +20,6 @@
                   <span>{{Bin_Color.Bin_Color_Color}}</span>
                 </li>
               </ul>
-
             </div>
             <!-- 尺码 size -->
             <div class="Bin_Size">
@@ -63,53 +62,49 @@
               </div>
               <!-- 具体内容 -->
               <!-- <CfnBody v-if="showcom"></CfnBody> -->
-
-              <div class="Bin_Cfn_Body" 
-              id="Bin_Cfn_Body" 
-              :is="CfnBody.component" 
-              v-for="(CfnBody,index) in Cfn":key="index">
+              <div class="Bin_Cfn_Body" id="Bin_Cfn_Body">
                   <!-- 动态加载 content -->
                   <div class="Bin_Cfn_Body_Content">
                       <!-- 左侧 -->
-                      <div class="b_r b_b Bin_Cfn_Body_Content_Left">
-                      <div class="">
-                          <p>红色</p>
-                      </div>
-                      <div class="">
-                          <p>蓝色</p>
-                      </div>
+                      <div class="Bin_Cfn_Body_Content_Left">
+                        <div class="">
+                            <p>红色</p>
+                        </div>
+                        <div class="">
+                            <p>蓝色</p>
+                        </div>
                       </div>
                       <!-- 右侧 -->
                       <div class="Bin_Cfn_Body_Content_Right">
-                      <!-- 第一行 -->
-                      <div class="Right_Specific">
-                          <div><p>S</p></div> 
-                          <div><p>*价格</p></div> 
-                          <div><button class="btn_click">+添加图片</button></div> 
-                          <div><p>商家编码</p></div> 
-                          <div><p>商品条形码</p></div>
-                          <button class="btn_click">展开》</button>                                        
-                      </div>
-                      <!-- 第二行 -->
-                      <div class="Right_Stock">
-                          <p>库存</p>
-                      </div>
-                      <!-- 第三行 -->
-                      <div class="Right_Address">
-                          <div><p>地址</p></div>
-                          <div><p>数量</p></div>
-                          <div><p>操作</p></div>
-                      </div>
-                      <!-- 第四行 -->
-                      <div class="Right_Edit">
-                          <div>
-                          <input type="text">
-                          <span class="btn_click">编辑</span>
-                          </div>
-                          <div><p>数量</p></div>
-                          <div><span class="btn_click">删除</span></div>
-                          <button class="btn_click">+</button>                      
-                      </div>
+                        <!-- 第一行 -->
+                        <div class="Right_Specific">
+                            <div><p>S</p></div> 
+                            <div><p>*价格</p></div> 
+                            <div><button class="btn_click">+添加图片</button></div> 
+                            <div><p>商家编码</p></div> 
+                            <div><p>商品条形码</p></div>
+                            <button class="btn_click">展开》</button>                                        
+                        </div>
+                        <!-- 第二行 -->
+                        <div class="Right_Stock">
+                            <p>库存</p>
+                        </div>
+                        <!-- 第三行 -->
+                        <div class="Right_Address">
+                            <div><p>地址</p></div>
+                            <div><p>数量</p></div>
+                            <div><p>操作</p></div>
+                        </div>
+                        <!-- 第四行 -->
+                        <div class="Right_Edit">
+                            <div>
+                            <input type="text">
+                            <span class="btn_click">编辑</span>
+                            </div>
+                            <div><p>数量</p></div>
+                            <div><span class="btn_click">删除</span></div>
+                            <button class="btn_click">+</button>                      
+                        </div>
                       </div>
                   </div>
               </div>
@@ -117,7 +112,6 @@
           </div>
       </div>
     </div>
-    
   </div>
 </template>
 <script>
@@ -171,7 +165,6 @@ export default {
 </script>
 
 <style scoped>
-
 .hello{
   width: 1120px;
   height: 704px;
@@ -392,6 +385,8 @@ ul li span{
 .Bin_Cfn_Body_Content_Left{
   width: 135px;
   float: left;
+  border-right: 1px solid #cccccc;    
+  border-bottom: 1px solid #cccccc; 
   height: 200px;
 }
 .Bin_Cfn_Body_Content_Left div{
