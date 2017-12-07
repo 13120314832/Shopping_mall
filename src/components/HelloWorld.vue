@@ -14,7 +14,9 @@
               </div>
               <ul>
                 <li v-for="(Bin_Color,index) in Bin_Colors":key="index">
-                  <img @click="Bin_Color_img(Bin_Color)" class="Bin_Color_Img" :src="Bin_Color.check?'../../static/elect.png':'../../static/unelect.png'">    
+                  <img @click="Bin_Color_img(Bin_Color)" 
+                  class="Bin_Color_Img" :class="{'active':Bin_Color.show===true}">    
+                 <!--  :src="Bin_Color.check?'../../static/elect.png':'../../static/unelect.png'" -->
                   <!-- <img @click="Bin_Color_img(Bin_Color)" class="Bin_Color_Img" :src="Bin_Color.check?require('./elect.png'):require('./unelect.png')">     -->
                   <span class="Bin_Color_Item_Span" :style="{background:Bin_Color.color}"></span>
                   <span>{{Bin_Color.Bin_Color_Color}}</span>
@@ -30,7 +32,11 @@
               <ul>
                 <li v-for="(Bin_Size,index) in Bin_Sizes":key="index">
                   <!-- <img @click="Bin_Size_img(Bin_Size)" class="Bin_Size_Img" :src="Bin_Size.check?require('./elect.png'):require('./unelect.png')">                       -->
-                  <img @click="Bin_Size_img(Bin_Size)" class="Bin_Size_Img" :src="Bin_Size.check?'../../static/elect.png':'../../static/unelect.png'">                      
+                  <img @click="Bin_Size_img(Bin_Size)" 
+                  class="Bin_Size_Img" :class="{'active':Bin_Size.show===true}" >                    
+                    <!-- 
+                  :src="Bin_Size.check?'../../static/elect.png':'../../static/unelect.png'"
+                     -->
                   <span>{{Bin_Size.Bin_Size_Size}}</span>
                 </li>
                 <button type="button" class="btn_click" @click="addss('a-component', 'test')">+添加</button>
@@ -62,13 +68,14 @@
               </div>
               <!-- 具体内容 -->
               <!-- <CfnBody v-if="showcom"></CfnBody> -->
-              <div class="Bin_Cfn_Body" id="Bin_Cfn_Body">
+              <ul class="Bin_Cfn_Body" id="Bin_Cfn_Body">
                   <!-- 动态加载 content -->
-                  <div class="Bin_Cfn_Body_Content">
+
+                  <li v-for="(Cfn,index) in Cfns" :key="index" class="Bin_Cfn_Body_Content">
                       <!-- 左侧 -->
                       <div class="Bin_Cfn_Body_Content_Left">
                         <div class="">
-                            <p id="Left_Color">红色</p>
+                            <p id="Left_Color">红色{{Cfna}}</p>
                         </div>
                       </div>
                       <!-- 右侧 -->
@@ -96,15 +103,15 @@
                         <div class="Right_Edit">
                             <div>
                             <input type="text">
-                            <span class="btn_click">编辑</span>
+                            <span class="btn_click edit">编辑</span>
                             </div>
                             <div><p>数量</p></div>
-                            <div><span class="btn_click">删除</span></div>
+                            <div><span class="btn_click deleting">删除</span></div>
                             <button class="btn_click">+</button>                      
                         </div>
                       </div>
-                  </div>
-              </div>
+                  </li>
+              </ul>
             </div>
           </div>
       </div>
@@ -116,6 +123,8 @@
 export default {
   data(){
 				return{
+          Cfns:[],
+          Cfna:'',
 					Bin_Colors:[
             {check:false,color:"#fe0000",Bin_Color_Color:"红色"},
             {check:false,color:"#9a0001",Bin_Color_Color:"深红色"},
@@ -152,10 +161,22 @@ export default {
       },
       methods:{
         Bin_Color_img:function(Bin_Color){
-          Bin_Color.check = !Bin_Color.check
+          // Bin_Color.check = !Bin_Color.check,//第二次点击
+          Bin_Color.show = !Bin_Color.show
+          //点击图片添加class active
+          
+          this.Cfns.push({
+            // 动态添加内容
+          })
+          // Cfn.Cfns.splice(index,1)           
         },
         Bin_Size_img:function(Bin_Size){
-          Bin_Size.check = !Bin_Size.check
+          // Bin_Size.check = !Bin_Size.check,//第二次点击
+          Bin_Size.show = !Bin_Size.show
+          //点击图片添加class active
+          this.Cfns.push({
+            // 动态添加内容
+          })
         },
       }
 }
@@ -235,7 +256,11 @@ export default {
   font-size: 12px;
 }
 .Bin_Color_Img{
+  background: url(../../static/unelect.png);
   margin: 10px 0px;
+}
+.active{
+  background: url(../../static/elect.png);  
 }
 .Bin_Color_Img,.Bin_Size_Img{
   width: 16px;
@@ -347,12 +372,12 @@ ul li span{
 }
 .Bin_Cfn_title{
   border: 1px solid #cccccc;  
-  width: 100%;
+  width: 813px;
   height: 30px;
   background: #f6f6f6;
 }
 .Bin_Cfn_title div,.Bin_Cfn_Body_Content li{
-  width: 135px;
+  width: 134px;
   height: 30px;
   float: left;
   border-right: 1px solid #cccccc;
@@ -370,19 +395,18 @@ ul li span{
 /* 具体内容 */
 .Bin_Cfn_Body{
   width: 100%;
-  background: #ffffff;
-  border: 1px solid #cccccc;  
+  background: #ffffff; 
   border-top: none;
-  height: 200px;
 }
 .Bin_Cfn_Body_Content{
   width: 100%;
   height: 100%;
 }
 .Bin_Cfn_Body_Content_Left{
-  width: 135px;
+  width: 134px;
   float: left;
   border-right: 1px solid #cccccc;    
+  border-left: 1px solid #cccccc;    
   border-bottom: 1px solid #cccccc; 
   height: 123px;
 }
@@ -404,13 +428,13 @@ ul li span{
 }
 .Bin_Cfn_Body_Content div span{
   font-size: 12px;
-  line-height: 30px;
+  /* line-height: 30px; */
   text-decoration:underline;
 }
 .Bin_Cfn_Body_Content_Right{
-  width: 679px;
+  width: 678px;
   float: left;
-  height: 100px;
+  border-right: 1px solid #cccccc;      
 }
 .Bin_Cfn_Body_Content_Right>div{
   width: 100%;
@@ -418,7 +442,7 @@ ul li span{
   height: 30px;
 }
 .Bin_Cfn_Body_Content_Right>div>div{
-  width: 135px;
+  width: 134px;
   height: 30px;
   float: left;
   border-right: 1px solid #cccccc;     
@@ -480,12 +504,14 @@ ul li span{
   width: 321px;
   height: 30px;
   margin-left:14px; 
+  float: left;
 }
-.Right_Edit span{
+.Right_Edit .edit{
   margin: 11px 22px 5px 0px;
+  float: left;
   color: #246ab9;
 }
-.Right_Edit div:nth-child(3) span{
+.Right_Edit .deleting{
   color: red;
   margin: 11px 50px 5px 50px;
 }
