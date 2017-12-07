@@ -110,11 +110,11 @@
                                   onblur="if (value ==''){value='|'}"  
                                   class="input_ing_one" type="text">
                                 </div>
-                              <button class="btn_click">展开》</button>                                        
+                              <button class="btn_click an_btn">展开》</button>                                        
                           </div>
                           
                           <!-- 第二三四行 -->
-                          <div>
+                          <div class="an_div">
                             <!-- 第二行 -->
                             <div class="Right_Stock">
                                 <p>库存</p>
@@ -125,18 +125,26 @@
                                 <div><p>数量</p></div>
                                 <div><p>操作</p></div>
                             </div>
-                            <!-- 第四行 -->
-                            <div class="Right_Edit">
-                                <div>
-                                <input value="|" 
+                            
+                            <!-- 第四行 应该再包含一层div-->
+                            <div class="addition_div">
+                              <div class="Right_Edit">
+                                  <div>
+                                  <input value="|" 
+                                      onfocus="if (value =='|'){value =''}"  
+                                      onblur="if (value ==''){value='|'}" 
+                                      class="input_ing_two" type="text">
+                                  <span class="btn_click edit">编辑</span>
+                                  </div>
+                                  <div>
+                                    <input value="|" 
                                     onfocus="if (value =='|'){value =''}"  
-                                    onblur="if (value ==''){value='|'}" 
-                                    class="input_ing_two" type="text">
-                                <span class="btn_click edit">编辑</span>
-                                </div>
-                                <div><p>数量</p></div>
-                                <div><span class="btn_click deleting">删除</span></div>
-                                <button class="btn_click">+</button>                      
+                                    onblur="if (value ==''){value='|'}"  
+                                    class="input_ing_one" type="text">
+                                  </div>
+                                  <div><span class="btn_click deleting">删除</span></div>
+                                  <button class="btn_click addition_btn">+</button>                      
+                              </div>
                             </div>
                           </div>
                           <!-- 第二三四行结束div -->
@@ -498,22 +506,22 @@ ul li span{
   border-left: 1px solid #cccccc;     
   margin-left:-1px;  
 }
-.Bin_Cfn_Body_Content_Right>div{
+.Right_Specific{
+  border-bottom: 1px solid #cccccc;  
   width: 100%;
-  border-bottom: 1px solid #cccccc;      
   height: 30px;
 }
-.Bin_Cfn_Body_Content_Right>div>div{
-  width: 134px;
-  height: 30px;
+.Right_Specific>div{
+  width: 135px;
   float: left;
-  overflow: hidden;
-  border-right: 1px solid #cccccc;     
+  border-right: 1px solid #cccccc;    
+  margin-left: -1px;   
+  height: 30px;
 }
 .Bin_Cfn_Body_Content_Right>div>div:nth-child(5){
   border-right: none;    
 }
-.Bin_Cfn_Body_Content_Right button{
+.Right_Specific button{
   width: 79px;
   height: 23px;
   border: 1px solid #cccccc;  
@@ -532,14 +540,32 @@ ul li span{
   border-left:none;  
   right: -45px;
   margin: 0;
-  top: 6px;
+  top: 4px;
   background: linear-gradient(to left, #ffffff 0%,#c1c1c1 100%);
   color: #000000;
 }
+/* 展开 */
+.an_div{
+  width: 100%;
+}
+.Right_Stock,.Right_Address,.Right_Edit{
+  height: 30px;
+  width: 100%;
+  border-bottom: 1px solid #cccccc;   
+}
+.Right_Address>div,.Right_Edit>div{
+  width: 134px;
+  height: 30px;
+  float: left;
+  overflow: hidden;
+  border-right: 1px solid #cccccc;  
+}
+/* 第二行 */
 .Right_Stock{
   border-bottom: 1px solid #cccccc;    
   background: #f8f9fd;
 }
+/* 第三行 */
 .Right_Address{
   background: #f6f6f6;
 }
@@ -547,12 +573,16 @@ ul li span{
   width: 405px;
 }
 .Right_Address>div:nth-child(3),.Right_Edit>div:nth-child(3){
-  border-right: none;  
+  border-right: none;
 }
+/* 第四行 */
 .Right_Edit{
   position: relative;
 }
-.Right_Edit>button{
+.Right_Edit div{
+   line-height: 30px;
+}
+.addition_btn{
   width: 18px;
   height: 18px;
   border: 1px solid #cccccc;  
@@ -577,13 +607,20 @@ ul li span{
   color: #b6b6b6;
 }
 .Right_Edit .edit{
-  margin: 7px 22px 5px 0px;
+  text-align:center;/*span中的文字居中 */
+  width: 70px;
+  height: 30px;
   float: left;
   color: #246ab9;
+  display: block;  
 }
 .Right_Edit .deleting{
   color: red;
-  margin: 7px 55px 5px 55px;
+  /* margin: 7px 55px 5px 55px; */
+  width: 134px;
+  height: 30px;
+  display: block;
+  text-align:center;
 }
 
 /* 右边边框 */
