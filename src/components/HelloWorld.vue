@@ -68,50 +68,82 @@
               </div>
               <!-- 具体内容 -->
               <!-- <CfnBody v-if="showcom"></CfnBody> -->
-              <ul class="Bin_Cfn_Body" id="Bin_Cfn_Body">
-                  <!-- 动态加载 content -->
-
-                  <li v-for="(Cfn,index) in Cfns" :key="index" class="Bin_Cfn_Body_Content">
+              <div class="Bin_Cfn_Body" id="Bin_Cfn_Body">
+                  <div class="Bin_Cfn_Body_Content">
+                      
                       <!-- 左侧 -->
-                      <div class="Bin_Cfn_Body_Content_Left">
-                        <div class="">
-                            <p id="Left_Color">红色{{Cfna}}</p>
-                        </div>
+                      <div class="Bin_Cfn_Body_Content_L">
+                        <!-- 动态加载 content -->
+                        <div 
+                        v-for="(Cfn,index) in D_Color" :key="index" 
+                        class="Bin_Cfn_Body_Content_Left">
+                          <div class="">
+                              <p id="Left_Color">{{Cfn}}</p>
+                          </div>
+                          </div>
                       </div>
                       <!-- 右侧 -->
-                      <div class="Bin_Cfn_Body_Content_Right">
-                        <!-- 第一行 -->
-                        <div class="Right_Specific">
-                            <div><p>S</p></div> 
-                            <div><p>*价格</p></div> 
-                            <div><button class="btn_click">+添加图片</button></div> 
-                            <div><p>商家编码</p></div> 
-                            <div><p>商品条形码</p></div>
-                            <button class="btn_click">展开》</button>                                        
-                        </div>
-                        <!-- 第二行 -->
-                        <div class="Right_Stock">
-                            <p>库存</p>
-                        </div>
-                        <!-- 第三行 -->
-                        <div class="Right_Address">
-                            <div><p>地址</p></div>
-                            <div><p>数量</p></div>
-                            <div><p>操作</p></div>
-                        </div>
-                        <!-- 第四行 -->
-                        <div class="Right_Edit">
-                            <div>
-                            <input type="text">
-                            <span class="btn_click edit">编辑</span>
+                      <div class="Bin_Cfn_Body_Content_R">
+                        <!-- 动态加载 content -->
+                        <div v-for="(Cfn,index) in D_Size" :key="index"
+                        class="Bin_Cfn_Body_Content_Right">
+                          <!-- 第一行 -->
+                          <div class="Right_Specific">
+                              <div><p>{{Cfn}}</p></div> 
+                              <div>
+                                <input value="元" 
+                                  onfocus="if (value =='元'){value =''}"  
+                                  onblur="if (value ==''){value='元'}"  
+                                  class="input_ing_one" type="text">
+                                </div> 
+                              <div><button class="btn_click">+添加图片</button></div> 
+                              <div>
+                                <input value="|" 
+                                  onfocus="if (value =='|'){value =''}"  
+                                  onblur="if (value ==''){value='|'}"  
+                                  class="input_ing_one" type="text"
+                                >
+                              </div> 
+                              <div>
+                                <input value="|" 
+                                  onfocus="if (value =='|'){value =''}"  
+                                  onblur="if (value ==''){value='|'}"  
+                                  class="input_ing_one" type="text">
+                                </div>
+                              <button class="btn_click">展开》</button>                                        
+                          </div>
+                          
+                          <!-- 第二三四行 -->
+                          <div>
+                            <!-- 第二行 -->
+                            <div class="Right_Stock">
+                                <p>库存</p>
                             </div>
-                            <div><p>数量</p></div>
-                            <div><span class="btn_click deleting">删除</span></div>
-                            <button class="btn_click">+</button>                      
+                            <!-- 第三行 -->
+                            <div class="Right_Address">
+                                <div><p>地址</p></div>
+                                <div><p>数量</p></div>
+                                <div><p>操作</p></div>
+                            </div>
+                            <!-- 第四行 -->
+                            <div class="Right_Edit">
+                                <div>
+                                <input value="|" 
+                                    onfocus="if (value =='|'){value =''}"  
+                                    onblur="if (value ==''){value='|'}" 
+                                    class="input_ing_two" type="text">
+                                <span class="btn_click edit">编辑</span>
+                                </div>
+                                <div><p>数量</p></div>
+                                <div><span class="btn_click deleting">删除</span></div>
+                                <button class="btn_click">+</button>                      
+                            </div>
+                          </div>
+                          <!-- 第二三四行结束div -->
                         </div>
                       </div>
-                  </li>
-              </ul>
+                  </div>
+              </div>
             </div>
           </div>
       </div>
@@ -123,8 +155,9 @@
 export default {
   data(){
 				return{
-          Cfns:[],
           Cfna:'',
+          D_Color:[],
+          D_Size:[],
 					Bin_Colors:[
             {check:false,color:"#fe0000",Bin_Color_Color:"红色"},
             {check:false,color:"#9a0001",Bin_Color_Color:"深红色"},
@@ -160,23 +193,39 @@ export default {
         }        
       },
       methods:{
-        Bin_Color_img:function(Bin_Color){
-          // Bin_Color.check = !Bin_Color.check,//第二次点击
-          Bin_Color.show = !Bin_Color.show
-          //点击图片添加class active
-          
-          this.Cfns.push({
-            // 动态添加内容
-          })
-          // Cfn.Cfns.splice(index,1)           
+        Bin_Color_img:function(Bin_Color,index){
+          // Bin_Color.check = !Bin_Color.check,//第二次点击 配合切换图片路径
+          Bin_Color.show = !Bin_Color.show//点击图片添加class active
+          if(Bin_Color.show){//如果是未选中状态，并存入D_Color数组
+            this.D_Color.push(//push：在最后面插入
+              Bin_Color.Bin_Color_Color//获取颜色传给左侧框中    
+            )  
+          }else{
+            for(var i=0 ; i<this.D_Color.length; i++ ){
+              //遍历D_Color数组，判断点击的Bin_Color.Bin_Color_Color是否在数组中，在则删除
+              if(Bin_Color.Bin_Color_Color == this.D_Color[i]){
+                this.D_Color.splice(i,1)  //删除
+              }
+            }
+          }
         },
         Bin_Size_img:function(Bin_Size){
-          // Bin_Size.check = !Bin_Size.check,//第二次点击
-          Bin_Size.show = !Bin_Size.show
-          //点击图片添加class active
-          this.Cfns.push({
-            // 动态添加内容
-          })
+          // Bin_Size.check = !Bin_Size.check,//第二次点击 配合切换图片路径
+          Bin_Size.show = !Bin_Size.show//点击图片添加class active
+          if(Bin_Size.show){
+            this.D_Size.push(
+              Bin_Size.Bin_Size_Size//获取尺码传给右侧框中 
+            ) 
+          }else{
+            for(var i=0;i<this.D_Size.length;i++ ){
+              if(Bin_Size.Bin_Size_Size == this.D_Size[i]){
+                this.D_Size.splice(i,1)
+              }
+            }
+          }
+                   
+
+          
         },
       }
 }
@@ -402,23 +451,34 @@ ul li span{
   width: 100%;
   height: 100%;
 }
+.Bin_Cfn_Body_Content_L{
+  width: 136px;
+  float: left;
+
+}
+.Bin_Cfn_Body_Content_R{
+  width: 679px;
+  float: right;
+  
+}
 .Bin_Cfn_Body_Content_Left{
   width: 134px;
   float: left;
   border-right: 1px solid #cccccc;    
   border-left: 1px solid #cccccc;    
   border-bottom: 1px solid #cccccc; 
-  height: 123px;
+  /* 30 61 92 123 */  
+  height: 30px;
 }
 .Bin_Cfn_Body_Content_Left div{
   width: 100%;
-  height: 123px;
+  height: 30px;
   /* 30 61 92 123 */  
   text-align: center;
   border-bottom: 1px solid #cccccc;      
 }
 #Left_Color{
-  line-height: 123px;
+  line-height: 30px;
   /* 30 61 92 123 */
 }
 .Bin_Cfn_Body_Content div p{
@@ -435,6 +495,8 @@ ul li span{
   width: 678px;
   float: left;
   border-right: 1px solid #cccccc;      
+  border-left: 1px solid #cccccc;     
+  margin-left:-1px;  
 }
 .Bin_Cfn_Body_Content_Right>div{
   width: 100%;
@@ -445,6 +507,7 @@ ul li span{
   width: 134px;
   height: 30px;
   float: left;
+  overflow: hidden;
   border-right: 1px solid #cccccc;     
 }
 .Bin_Cfn_Body_Content_Right>div>div:nth-child(5){
@@ -481,7 +544,7 @@ ul li span{
   background: #f6f6f6;
 }
 .Right_Address>div:nth-child(1),.Right_Edit>div:nth-child(1){
-  width: 407px;
+  width: 405px;
 }
 .Right_Address>div:nth-child(3),.Right_Edit>div:nth-child(3){
   border-right: none;  
@@ -500,20 +563,27 @@ ul li span{
   top: 6px;
   background: #ffffff;
 }
-.Right_Edit input{
+.input_ing_two{
   width: 321px;
   height: 30px;
   margin-left:14px; 
+  color: #b6b6b6;
   float: left;
 }
+.input_ing_one{
+  width: 115px;
+  margin: 0 10px;
+  height: 30px;
+  color: #b6b6b6;
+}
 .Right_Edit .edit{
-  margin: 11px 22px 5px 0px;
+  margin: 7px 22px 5px 0px;
   float: left;
   color: #246ab9;
 }
 .Right_Edit .deleting{
   color: red;
-  margin: 11px 50px 5px 50px;
+  margin: 7px 55px 5px 55px;
 }
 
 /* 右边边框 */

@@ -42,7 +42,6 @@ border-radius: 0;
 body{
   width: 1400px;
   height: 100%;
-  background: #000000;
 }
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
@@ -50,6 +49,5 @@ body{
   -moz-osx-font-smoothing: grayscale;
   width: 100%;
   height: 100%;
-  background: red;
 }
 </style>
