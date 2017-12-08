@@ -48,7 +48,6 @@
               <div>
                 <h3>批量填充：</h3>
                 <div><span>价格</span><input type="text" name=""></div>
-                
                 <div><span>数量</span><input type="text" name=""></div>
                 <div><span>商家编码</span><input type="text" name=""></div>
                 <div><span>条形码</span><input type="text" name=""></div>
@@ -67,10 +66,8 @@
                 <div><p>商品条形码</p></div> 
               </div>
               <!-- 具体内容 -->
-              <!-- <CfnBody v-if="showcom"></CfnBody> -->
               <div class="Bin_Cfn_Body" id="Bin_Cfn_Body">
                   <div class="Bin_Cfn_Body_Content">
-                      
                       <!-- 左侧 -->
                       <div class="Bin_Cfn_Body_Content_L">
                         <!-- 动态加载 content -->
@@ -101,8 +98,7 @@
                                 <input value="|" 
                                   onfocus="if (value =='|'){value =''}"  
                                   onblur="if (value ==''){value='|'}"  
-                                  class="input_ing_one" type="text"
-                                >
+                                  class="input_ing_one" type="text">
                               </div> 
                               <div>
                                 <input value="|" 
@@ -110,11 +106,10 @@
                                   onblur="if (value ==''){value='|'}"  
                                   class="input_ing_one" type="text">
                                 </div>
-                              <button class="btn_click an_btn">展开》</button>                                        
+                              <button class="btn_click an_btn" @click="showToggle" v-text="btnText"></button>                                        
                           </div>
-                          
                           <!-- 第二三四行 -->
-                          <div class="an_div">
+                          <div class="an_div" v-show="isShow">
                             <!-- 第二行 -->
                             <div class="Right_Stock">
                                 <p>库存</p>
@@ -125,26 +120,32 @@
                                 <div><p>数量</p></div>
                                 <div><p>操作</p></div>
                             </div>
-                            
                             <!-- 第四行 应该再包含一层div-->
                             <div class="addition_div">
                               <div class="Right_Edit">
-                                  <div>
-                                  <input value="|" 
+                                  <div><input value="|" 
                                       onfocus="if (value =='|'){value =''}"  
                                       onblur="if (value ==''){value='|'}" 
-                                      class="input_ing_two" type="text">
-                                  <span class="btn_click edit">编辑</span>
-                                  </div>
-                                  <div>
-                                    <input value="|" 
+                                      class="input_ing_two" type="text"><span class="btn_click edit">编辑</span></div>
+                                  <div><input value="|" 
                                     onfocus="if (value =='|'){value =''}"  
                                     onblur="if (value ==''){value='|'}"  
-                                    class="input_ing_one" type="text">
-                                  </div>
+                                    class="input_ing_one" type="text"></div>
                                   <div><span class="btn_click deleting">删除</span></div>
-                                  <button class="btn_click addition_btn">+</button>                      
                               </div>
+                              <!-- 动态 -->
+                              <div class="Right_Edit" v-for="(RightEdit,index) in RightEdits":key="index">
+                                  <div><input value="|" 
+                                      onfocus="if (value =='|'){value =''}"  
+                                      onblur="if (value ==''){value='|'}" 
+                                      class="input_ing_two" type="text"><span class="btn_click edit">编辑</span></div>
+                                  <div><input value="|" 
+                                    onfocus="if (value =='|'){value =''}"  
+                                    onblur="if (value ==''){value='|'}"  
+                                    class="input_ing_one" type="text"></div>
+                                  <div><span class="btn_click deleting" @click="Delete(index)">删除</span></div>
+                              </div>
+                              <button class="btn_click addition_btn" @click="addRightEdit">+</button>  
                             </div>
                           </div>
                           <!-- 第二三四行结束div -->
@@ -159,13 +160,15 @@
   </div>
 </template>
 <script>
-
 export default {
   data(){
 				return{
           Cfna:'',
+          btnText:"展开》",
+          isShow:false,
           D_Color:[],
           D_Size:[],
+          RightEdits:[],
 					Bin_Colors:[
             {check:false,color:"#fe0000",Bin_Color_Color:"红色"},
             {check:false,color:"#9a0001",Bin_Color_Color:"深红色"},
@@ -201,6 +204,7 @@ export default {
         }        
       },
       methods:{
+        // 点击颜色
         Bin_Color_img:function(Bin_Color,index){
           // Bin_Color.check = !Bin_Color.check,//第二次点击 配合切换图片路径
           Bin_Color.show = !Bin_Color.show//点击图片添加class active
@@ -217,6 +221,7 @@ export default {
             }
           }
         },
+        // 点击尺寸
         Bin_Size_img:function(Bin_Size){
           // Bin_Size.check = !Bin_Size.check,//第二次点击 配合切换图片路径
           Bin_Size.show = !Bin_Size.show//点击图片添加class active
@@ -231,14 +236,28 @@ export default {
               }
             }
           }
-                   
-
-          
         },
+        // 点击展开，收起按钮
+        showToggle:function(index){  
+            this.isShow = !this.isShow  
+            if(this.isShow){  
+                this.btnText = "《收起"  
+            }else{  
+                this.btnText = "展开》"  
+            }  
+        },
+        // 点击第四行小加号
+        addRightEdit:function(){
+          this.RightEdits.push({
+          })
+        },
+        //删除第四行
+        Delete:function(index){
+          this.RightEdits.splice(index,1)
+        }
       }
 }
 </script>
-
 <style scoped>
 .hello{
   width: 1120px;
@@ -548,6 +567,9 @@ ul li span{
 .an_div{
   width: 100%;
 }
+.addition_div{
+  position: relative;
+}
 .Right_Stock,.Right_Address,.Right_Edit{
   height: 30px;
   width: 100%;
@@ -590,7 +612,7 @@ ul li span{
   position: absolute;
   right: -19px;
   margin: 0;
-  top: 6px;
+  bottom: 6px;
   background: #ffffff;
 }
 .input_ing_two{
