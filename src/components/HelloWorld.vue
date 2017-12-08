@@ -74,7 +74,7 @@
                         <div 
                         v-for="(Cfn,index) in D_Color" :key="index" 
                         class="Bin_Cfn_Body_Content_Left" 
-                        :style="{height:Bin_Cfn_Body_Content_L_h+'px'}">
+                        :style="{height:Bin_Cfn_Body_Content_L_h+'px',display:Lnone}">
                           <div :style="{height:Bin_Cfn_Body_Content_L_h+'px'}">
                               <p id="Left_Color" 
                               :style="{lineHeight:Bin_Cfn_Body_Content_L_h+'px'}"
@@ -85,7 +85,7 @@
                       <!-- 右侧 -->
                       <div class="Bin_Cfn_Body_Content_R"  ref="Bin_Cfn_Body_Content_R">
                         <!-- 动态加载 content -->
-                        <div v-for="(Cfn,index) in D_Size" :key="index"
+                        <div v-for="(Cfn,index) in D_Size" :key="index" :style="{display:Rnone}"
                         class="Bin_Cfn_Body_Content_Right">
                           <!-- 第一行 -->
                           <div class="Right_Specific">
@@ -171,6 +171,8 @@ export default {
           belowHeight: '',
           isShow:false,
           Bin_Cfn_Body_Content_L_h:'',
+          Lnone:'',
+          Rnone:'',
           D_Color:[],
           D_Size:[],
           RightEdits:[],
@@ -213,15 +215,28 @@ export default {
         Bin_Color_img:function(Bin_Color,index){
           // Bin_Color.check = !Bin_Color.check,//第二次点击 配合切换图片路径
           Bin_Color.show = !Bin_Color.show//点击图片添加class active
+          this.D_Color.push()//改变class有无 显示不同图片
           if(Bin_Color.show){//如果是未选中状态，并存入D_Color数组
-            this.D_Color.push(//push：在最后面插入
-              Bin_Color.Bin_Color_Color//获取颜色传给左侧框中    
-            )  
+            if(this.D_Size == 0){//判断尺寸数组长度，为0的话，就隐藏本身
+              this.Lnone = "none"//隐藏
+              this.D_Color.push(//push：在最后面插入
+                // this.D_Size.push(
+                  // Bin_Size.Bin_Size_Size
+                // ),
+                Bin_Color.Bin_Color_Color//获取颜色传给左侧框中    
+              ) 
+            }else{
+              this.Rnone = "block"//显示尺寸              
+              this.D_Color.push(//push：在最后面插入
+                Bin_Color.Bin_Color_Color//获取颜色传给左侧框中    
+              ) 
+            }
           }else{
             for(var i=0 ; i<this.D_Color.length; i++ ){
               //遍历D_Color数组，判断点击的Bin_Color.Bin_Color_Color是否在数组中，在则删除
               if(Bin_Color.Bin_Color_Color == this.D_Color[i]){
                 this.D_Color.splice(i,1)  //删除
+                  this.Rnone = "none"//取消颜色选中，对应的尺寸隐藏                
               }
             }
           }
@@ -231,13 +246,27 @@ export default {
           // Bin_Size.check = !Bin_Size.check,//第二次点击 配合切换图片路径
           Bin_Size.show = !Bin_Size.show//点击图片添加class active
           if(Bin_Size.show){
-            this.D_Size.push(
-              Bin_Size.Bin_Size_Size//获取尺码传给右侧框中 
-            ) 
+            if(this.D_Color == 0){
+              this.Rnone = "none"              
+              this.D_Size.push(
+                Bin_Size.Bin_Size_Size//获取尺码传给右侧框中 
+              ) 
+            }else{
+              this.Lnone = "block"              
+              this.D_Size.push(
+                Bin_Size.Bin_Size_Size//获取尺码传给右侧框中 
+              ) 
+            }
+            
           }else{
             for(var i=0;i<this.D_Size.length;i++ ){
               if(Bin_Size.Bin_Size_Size == this.D_Size[i]){
-                this.D_Size.splice(i,1)
+                if(this.D_Size.length == 1){//判断尺寸为一项时，取消选中的话，颜色隐藏
+                  this.D_Size.splice(i,1)                  
+                  this.Lnone = "none"
+                }else{
+                  this.D_Size.splice(i,1)                                    
+                }
               }
             }
           }
