@@ -69,18 +69,21 @@
               <div class="Bin_Cfn_Body" id="Bin_Cfn_Body">
                   <div class="Bin_Cfn_Body_Content">
                       <!-- 左侧 -->
-                      <div class="Bin_Cfn_Body_Content_L">
+                      <div class="Bin_Cfn_Body_Content_L"  :style="{height:Bin_Cfn_Body_Content_L_h+'px'}">
                         <!-- 动态加载 content -->
                         <div 
                         v-for="(Cfn,index) in D_Color" :key="index" 
-                        class="Bin_Cfn_Body_Content_Left">
-                          <div class="">
-                              <p id="Left_Color">{{Cfn}}</p>
+                        class="Bin_Cfn_Body_Content_Left" 
+                        :style="{height:Bin_Cfn_Body_Content_L_h+'px'}">
+                          <div :style="{height:Bin_Cfn_Body_Content_L_h+'px'}">
+                              <p id="Left_Color" 
+                              :style="{lineHeight:Bin_Cfn_Body_Content_L_h+'px'}"
+                              >{{Cfn}}</p>
                           </div>
                           </div>
                       </div>
                       <!-- 右侧 -->
-                      <div class="Bin_Cfn_Body_Content_R">
+                      <div class="Bin_Cfn_Body_Content_R"  ref="Bin_Cfn_Body_Content_R">
                         <!-- 动态加载 content -->
                         <div v-for="(Cfn,index) in D_Size" :key="index"
                         class="Bin_Cfn_Body_Content_Right">
@@ -165,7 +168,9 @@ export default {
 				return{
           Cfna:'',
           btnText:"展开》",
+          belowHeight: '',
           isShow:false,
+          Bin_Cfn_Body_Content_L_h:'',
           D_Color:[],
           D_Size:[],
           RightEdits:[],
@@ -236,6 +241,7 @@ export default {
               }
             }
           }
+        // this.Bin_Cfn_Body_Content_L_h = this.$refs.Bin_Cfn_Body_Content_R.offsetHeight                  
         },
         // 点击展开，收起按钮
         showToggle:function(index){  
@@ -244,18 +250,23 @@ export default {
                 this.btnText = "《收起"  
             }else{  
                 this.btnText = "展开》"  
-            }  
+            }                         
         },
         // 点击第四行小加号
         addRightEdit:function(){
           this.RightEdits.push({
-          })
+          })      
         },
         //删除第四行
         Delete:function(index){
-          this.RightEdits.splice(index,1)
+          this.RightEdits.splice(index,1)               
         }
+      },
+       updated () {//钩子 实时加载 左侧等于右侧
+        this.Bin_Cfn_Body_Content_L_h = this.$refs.Bin_Cfn_Body_Content_R.offsetHeight - 1
+        //获取右侧高度    
       }
+
 }
 </script>
 <style scoped>
