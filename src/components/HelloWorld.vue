@@ -212,31 +212,28 @@ export default {
       },
       methods:{
         // 点击颜色
-        Bin_Color_img:function(Bin_Color,index){
+        Bin_Color_img:function(Bin_Color,index,Bin_Size){
           // Bin_Color.check = !Bin_Color.check,//第二次点击 配合切换图片路径
           Bin_Color.show = !Bin_Color.show//点击图片添加class active
           this.D_Color.push()//改变class有无 显示不同图片
           if(Bin_Color.show){//如果是未选中状态，并存入D_Color数组
-            if(this.D_Size == 0){//判断尺寸数组长度，为0的话，就隐藏本身
+            if(this.D_Size.length == 0){//判断尺寸数组长度，为0的话，就隐藏本身
               this.Lnone = "none"//隐藏
               this.D_Color.push(//push：在最后面插入
-                // this.D_Size.push(
-                  // Bin_Size.Bin_Size_Size
-                // ),
-                Bin_Color.Bin_Color_Color//获取颜色传给左侧框中    
+                // Bin_Color.Bin_Color_Color//获取颜色传给左侧框中
               ) 
             }else{
-              this.Rnone = "block"//显示尺寸              
+              this.Rnone = "block"//显示尺寸    
               this.D_Color.push(//push：在最后面插入
-                Bin_Color.Bin_Color_Color//获取颜色传给左侧框中    
-              ) 
+                Bin_Color.Bin_Color_Color//获取颜色传给左侧框中
+              )
             }
           }else{
             for(var i=0 ; i<this.D_Color.length; i++ ){
               //遍历D_Color数组，判断点击的Bin_Color.Bin_Color_Color是否在数组中，在则删除
               if(Bin_Color.Bin_Color_Color == this.D_Color[i]){
                 this.D_Color.splice(i,1)  //删除
-                  this.Rnone = "none"//取消颜色选中，对应的尺寸隐藏                
+                  this.Rnone = "none"//取消颜色选中，对应的尺寸隐藏
               }
             }
           }
@@ -269,9 +266,9 @@ export default {
                 }
               }
             }
-          }
-        // this.Bin_Cfn_Body_Content_L_h = this.$refs.Bin_Cfn_Body_Content_R.offsetHeight                  
+          }               
         },
+        
         // 点击展开，收起按钮
         showToggle:function(index){  
             this.isShow = !this.isShow  
