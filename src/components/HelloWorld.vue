@@ -14,8 +14,12 @@
               </div>
               <ul>
                 <li v-for="(Bin_Color,index) in Bin_Colors":key="index">
+                  
                   <img @click="Bin_Color_img(Bin_Color)" 
-                  class="Bin_Color_Img" :class="{'active':Bin_Color.show===true}">    
+                  class="Bin_Color_Img" :class="{'active':Bin_Color.check===true}"> 
+
+
+
                  <!--  :src="Bin_Color.check?'../../static/elect.png':'../../static/unelect.png'" -->
                   <!-- <img @click="Bin_Color_img(Bin_Color)" class="Bin_Color_Img" :src="Bin_Color.check?require('./elect.png'):require('./unelect.png')">     -->
                   <span class="Bin_Color_Item_Span" :style="{background:Bin_Color.color}"></span>
@@ -32,8 +36,13 @@
               <ul>
                 <li v-for="(Bin_Size,index) in Bin_Sizes":key="index">
                   <!-- <img @click="Bin_Size_img(Bin_Size)" class="Bin_Size_Img" :src="Bin_Size.check?require('./elect.png'):require('./unelect.png')">                       -->
+                  
+                  
                   <img @click="Bin_Size_img(Bin_Size)" 
-                  class="Bin_Size_Img" :class="{'active':Bin_Size.show===true}" >                    
+                  class="Bin_Size_Img" :class="{'active':Bin_Size.check===true}">  
+
+
+
                     <!-- 
                   :src="Bin_Size.check?'../../static/elect.png':'../../static/unelect.png'"
                      -->
@@ -47,11 +56,11 @@
               <p>该类目下：颜色分类、尺码，请全选或全不选，如果只选一部分则无法保存对应的价格和库存；库存为0的宝贝规格，在商品详情页不展示</p>
               <div>
                 <h3>批量填充：</h3>
-                <div><span>价格</span><input type="text" name="" v-model="newJiage"></div>
-                <div><span>数量</span><input type="text" name=""></div>
-                <div><span>商家编码</span><input type="text" name=""></div>
-                <div><span>条形码</span><input type="text" name=""></div>
-                <button type="button" class="btn_click" @click="addBin_Filling(newJiage)">确定</button>
+                <div><span>价格</span><input  type="number" name="" v-model="newPrice"></div>
+                <div><span>数量</span><input  type="number" name="" v-model="newQuantity"></div>
+                <div><span>商家编码</span><input type="text" name="" v-model="newCoding"></div>
+                <div><span>条形码</span><input type="text" name="" v-model="newBar"></div>
+                <button type="button" class="btn_click" @click="addBin_Filling(newPrice,newQuantity,newCoding,newBar)">确定</button>
               </div>
             </div>
             <!-- 分类 classification -->
@@ -67,47 +76,48 @@
               </div>
               <!-- 具体内容 -->
               <div class="Bin_Cfn_Body" id="Bin_Cfn_Body">
-                  <div class="Bin_Cfn_Body_Content">
+                  <div class="Bin_Cfn_Body_Content"
+                  v-for="(Cfn,index) in D_Color" :key="index"
+                  :style="{display:Lnone}">
                       <!-- 左侧 -->
-                      <div class="Bin_Cfn_Body_Content_L"  :style="{height:Bin_Cfn_Body_Content_L_h+'px'}">
+                      <div class="Bin_Cfn_Body_Content_L" ref="Bin_Cfn_Body_Content_L_h">
                         <!-- 动态加载 content -->
-                        <div 
-                        v-for="(Cfn,index) in D_Color" :key="index" 
-                        class="Bin_Cfn_Body_Content_Left" 
-                        :style="{height:Bin_Cfn_Body_Content_L_h+'px',display:Lnone}">
-                          <div :style="{height:Bin_Cfn_Body_Content_L_h+'px'}">
+                        <div class="Bin_Cfn_Body_Content_Left" ref="Bin_Cfn_Body_Content_L_h">
+
+                          <div ref="Bin_Cfn_Body_Content_L_h">
+                            <!-- :style="{height:Bin_Cfn_Body_Content_L_h+'px'}" -->
                               <p id="Left_Color" 
-                              :style="{lineHeight:Bin_Cfn_Body_Content_L_h+'px'}"
-                              >{{Cfn}}</p>
+                              ref="Bin_Cfn_Body_Content_L_h">
+                                {{Cfn}}
+                              </p>
                           </div>
                           </div>
                       </div>
                       <!-- 右侧 -->
-                      <div class="Bin_Cfn_Body_Content_R"  ref="Bin_Cfn_Body_Content_R">
+                      <div class="Bin_Cfn_Body_Content_R" ref="Bin_Cfn_Body_Content_R_h">
                         <!-- 动态加载 content -->
-                        <div v-for="(Cfn,index) in D_Size" :key="index" :style="{display:Rnone}"
+                        <div v-for="(Cfn,index) in D_Size" 
+                        :key="index" :style="{display:Rnone}"
                         class="Bin_Cfn_Body_Content_Right">
                           <!-- 第一行 -->
                           <div class="Right_Specific">
                               <div><p>{{Cfn}}</p></div> 
-                              <div>
-                                <input value="元" 
-                                  onfocus="if (value =='元'){value =''}"  
-                                  onblur="if (value ==''){value='元'}"  
-                                  class="input_ing_one" type="text">{{a123}}
+                                <div>
+                                <!-- 价钱 -->
+                                  <input :value="write_newPrice"  v-on:keyup="addNew" type="number" class="input_ing_one">
                                 </div> 
                               <div><button class="btn_click">+添加图片</button></div> 
                               <div>
-                                <input value="|" 
-                                  onfocus="if (value =='|'){value =''}"  
-                                  onblur="if (value ==''){value='|'}"  
+                                <!-- 商家编码 -->
+                                <input :value="write_newCoding"
                                   class="input_ing_one" type="text">
+                                  <!-- {{write_newCoding}} -->
                               </div> 
                               <div>
-                                <input value="|" 
-                                  onfocus="if (value =='|'){value =''}"  
-                                  onblur="if (value ==''){value='|'}"  
+                                <!-- 商品条形码 -->
+                                <input :value="write_newBar" 
                                   class="input_ing_one" type="text">
+                                  <!-- {{write_newBar}} -->
                                 </div>
                               <button class="btn_click an_btn" @click="showToggle" v-text="btnText"></button>                                        
                           </div>
@@ -129,24 +139,32 @@
                                   <div><input value="|" 
                                       onfocus="if (value =='|'){value =''}"  
                                       onblur="if (value ==''){value='|'}" 
-                                      class="input_ing_two" type="text"><span class="btn_click edit">编辑</span></div>
-                                  <div><input value="|" 
-                                    onfocus="if (value =='|'){value =''}"  
-                                    onblur="if (value ==''){value='|'}"  
-                                    class="input_ing_one" type="text"></div>
+                                      class="input_ing_two" type="text">
+                                      <span class="btn_click edit">编辑</span></div>
+                                  <div>
+                                    <!-- 数量 -->
+                                    <input :value="write_newQuantity" 
+                                    class="input_ing_one"  type="number">
+                                    <!-- {{write_newQuantity}} -->
+                                  </div>
                                   <div><span class="btn_click deleting">删除</span></div>
                               </div>
                               <!-- 动态 -->
-                              <div class="Right_Edit" v-for="(RightEdit,index) in RightEdits":key="index">
-                                  <div><input value="|" 
+                              <div class="Right_Edit" v-for="(RightEdit,index) in RightEdits" :key="index">
+                                  <div>
+                                    <input  
                                       onfocus="if (value =='|'){value =''}"  
                                       onblur="if (value ==''){value='|'}" 
-                                      class="input_ing_two" type="text"><span class="btn_click edit">编辑</span></div>
-                                  <div><input value="|" 
-                                    onfocus="if (value =='|'){value =''}"  
-                                    onblur="if (value ==''){value='|'}"  
-                                    class="input_ing_one" type="text"></div>
-                                  <div><span class="btn_click deleting" @click="Delete(index)">删除</span></div>
+                                      class="input_ing_two" type="text" :value="RightEdit.id">
+                                      <span class="btn_click edit">编辑</span>
+                                    </div>
+                                  <div>
+                                    <!-- 数量 -->
+                                    <input :value="write_newQuantity" 
+                                    class="input_ing_one"  type="number">
+                                    <!-- {{write_newQuantity}} -->
+                                  </div>
+                                  <div><span class="btn_click deleting" @click="Delete(RightEdit,index)">删除</span></div>
                               </div>
                               <button class="btn_click addition_btn" @click="addRightEdit">+</button>  
                             </div>
@@ -171,9 +189,19 @@ export default {
           belowHeight: '',
           isShow:false,
           Bin_Cfn_Body_Content_L_h:'',
-          aa:[],
-          newJiage:'',
-          a123:'',
+          Bin_Cfn_Body_Content_R_h:'',
+
+          newPrice:'',//价格
+          newQuantity:'',//数量
+          newCoding:'',//商家编码
+          newBar:'',//条形码
+
+          write_newPrice:'',//写入价格
+          write_newQuantity:'',//写入数量
+          write_newCoding:'',//写入商家编码
+          write_newBar:'',//写入条形码
+
+
           Lnone:'',
           Rnone:'',
           D_Color:[],
@@ -216,30 +244,17 @@ export default {
       methods:{
         // 点击颜色
         Bin_Color_img:function(Bin_Color){
-          // Bin_Color.check = !Bin_Color.check,//第二次点击 配合切换图片路径
-          Bin_Color.show = !Bin_Color.show//点击图片添加class active
-          this.D_Color.push()//改变class有无 显示不同图片
-          if(Bin_Color.show){//如果是未选中状态，并存入D_Color数组
-            if(this.D_Color == 0){//判断颜色数组长度，为0的话，往下执行，不为0时，加载本身在加载尺寸函数
-              if(this.D_Size == 0){//判断尺寸数组长度，为0的话，就隐藏本身
-                this.Lnone = "none"//隐藏
-                this.D_Color.push(//push：在最后面插入
-                  Bin_Color.Bin_Color_Color//获取颜色传给左侧框中
-                ) 
+          Bin_Color.check = !Bin_Color.check//点击图片添加class active
+          // this.D_Color.push()//改变class有无 显示不同图片
+          if(Bin_Color.check){//如果是未选中状态，并存入D_Color数组
+              if(this.D_Size.length == 0){//判断尺寸数组长度，为0的话，就隐藏左侧
+                this.Lnone = "none"//隐藏左侧
               }else{
-                this.Rnone = "block"//显示尺寸    
-                this.D_Color.push(//push：在最后面插入
-                  Bin_Color.Bin_Color_Color//获取颜色传给左侧框中
-                )
+                this.Rnone = "block"//显示右侧 
               }
-            }else{
               this.D_Color.push(//push：在最后面插入
                 Bin_Color.Bin_Color_Color//获取颜色传给左侧框中
-              )
-              // 调用尺寸函数
-              // this.$options.methods.Bin_Size_img(Bin_Size)//Bin_Size undefined
-              this.Bin_Size_img(this.aa.Bin_Size)
-            }
+              ) 
           }else{
             for(var i=0 ; i<this.D_Color.length; i++ ){
               //遍历D_Color数组，判断点击的Bin_Color.Bin_Color_Color是否在数组中，在则删除
@@ -252,22 +267,18 @@ export default {
         },
         // 点击尺寸
         Bin_Size_img:function(Bin_Size){
-          this.aa = [Bin_Size]
           // Bin_Size.check = !Bin_Size.check,//第二次点击 配合切换图片路径
-          Bin_Size.show = !Bin_Size.show//点击图片添加class active
-          if(Bin_Size.show){
-            if(this.D_Color == 0){
-              this.Rnone = "none"              
-              this.D_Size.push(
-                Bin_Size.Bin_Size_Size//获取尺码传给右侧框中 
-              ) 
+          Bin_Size.check = !Bin_Size.check//点击图片添加class active
+          // this.D_Size.push()
+          if(Bin_Size.check){
+            if(this.D_Color.length == 0){
+              this.Rnone = "none"//隐藏右侧       
             }else{
-              this.Lnone = "block"              
-              this.D_Size.push(
-                Bin_Size.Bin_Size_Size//获取尺码传给右侧框中 
-              ) 
+              this.Lnone = "block"
             }
-            
+            this.D_Size.push(
+              Bin_Size.Bin_Size_Size//获取尺码传给右侧框中 
+            ) 
           }else{
             for(var i=0;i<this.D_Size.length;i++ ){
               if(Bin_Size.Bin_Size_Size == this.D_Size[i]){
@@ -294,23 +305,44 @@ export default {
         // 点击第四行小加号
         addRightEdit:function(){
           this.RightEdits.push({
+              allNum:'11',
+              id:this.RightEdits.length
           })      
         },
         //删除第四行
-        Delete:function(index){
+        Delete:function(obj,index){
           this.RightEdits.splice(index,1)               
         },
         // 点击填充
-        addBin_Filling:function(newJiage){
-          // this.D_Size.push({
-             this.a123 = newJiage
-          // })
+        addBin_Filling:function(newPrice,newQuantity,newCoding,newBar){
+             this.write_newPrice = newPrice
+             this.write_newQuantity = newQuantity
+             this.write_newCoding = newCoding
+             this.write_newBar = newBar
+
+             this.newPrice = ''
+             this.newQuantity = ''
+             this.newCoding = ''
+             this.newBar = ''
+
+        },
+        // 监听输入框事件
+        addNew:function(write_newPrice){
+          this.write_newPrice = this.write_newPrice
         }
       },
       
        updated () {//钩子 实时加载 左侧等于右侧
-        this.Bin_Cfn_Body_Content_L_h = this.$refs.Bin_Cfn_Body_Content_R.offsetHeight - 1
+        // this.Bin_Cfn_Body_Content_L_h = this.$refs.Bin_Cfn_Body_Content_R_h.offsetHeight - 1
         //获取右侧高度    
+        
+        var left = this.$refs['Bin_Cfn_Body_Content_L_h'][0];
+        var right = this.$refs['Bin_Cfn_Body_Content_R_h'][0];
+
+        var rightHeight = right.offsetHeight;
+        left.style.height = rightHeight-1 + 'px';
+        left.style.lineHeight = rightHeight-1 + 'px';
+
       }
 
 }
@@ -389,7 +421,7 @@ export default {
   font-size: 12px;
 }
 .Bin_Color_Img{
-  background: url(../../static/unelect.png);
+  /* background: url(../../static/unelect.png); */
   margin: 10px 0px;
 }
 .active{
@@ -549,14 +581,10 @@ ul li span{
   width: 134px;
   float: left;
   border-right: 1px solid #cccccc;    
-  border-left: 1px solid #cccccc;    
-  border-bottom: 1px solid #cccccc; 
-  /* 30 61 92 123 */  
-  height: 30px;
+  border-left: 1px solid #cccccc;  
 }
 .Bin_Cfn_Body_Content_Left div{
   width: 100%;
-  height: 30px;
   /* 30 61 92 123 */  
   text-align: center;
   border-bottom: 1px solid #cccccc;      
@@ -680,8 +708,9 @@ ul li span{
   float: left;
 }
 .input_ing_one{
-  width: 60px;
-  margin: 0 10px;
+  width: 125px;
+  margin: 0 0 0 10px;
+  line-height: 30px;
   height: 30px;
   color: #b6b6b6;
 }
