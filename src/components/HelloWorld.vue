@@ -47,11 +47,11 @@
               <p>该类目下：颜色分类、尺码，请全选或全不选，如果只选一部分则无法保存对应的价格和库存；库存为0的宝贝规格，在商品详情页不展示</p>
               <div>
                 <h3>批量填充：</h3>
-                <div><span>价格</span><input type="text" name=""></div>
+                <div><span>价格</span><input type="text" name="" v-model="newJiage"></div>
                 <div><span>数量</span><input type="text" name=""></div>
                 <div><span>商家编码</span><input type="text" name=""></div>
                 <div><span>条形码</span><input type="text" name=""></div>
-                <button type="button" class="btn_click">确定</button>
+                <button type="button" class="btn_click" @click="addBin_Filling(newJiage)">确定</button>
               </div>
             </div>
             <!-- 分类 classification -->
@@ -94,7 +94,7 @@
                                 <input value="元" 
                                   onfocus="if (value =='元'){value =''}"  
                                   onblur="if (value ==''){value='元'}"  
-                                  class="input_ing_one" type="text">
+                                  class="input_ing_one" type="text">{{a123}}
                                 </div> 
                               <div><button class="btn_click">+添加图片</button></div> 
                               <div>
@@ -172,6 +172,8 @@ export default {
           isShow:false,
           Bin_Cfn_Body_Content_L_h:'',
           aa:[],
+          newJiage:'',
+          a123:'',
           Lnone:'',
           Rnone:'',
           D_Color:[],
@@ -213,12 +215,12 @@ export default {
       },
       methods:{
         // 点击颜色
-        Bin_Color_img:function(Bin_Color,index,Bin_Size){
+        Bin_Color_img:function(Bin_Color){
           // Bin_Color.check = !Bin_Color.check,//第二次点击 配合切换图片路径
           Bin_Color.show = !Bin_Color.show//点击图片添加class active
           this.D_Color.push()//改变class有无 显示不同图片
           if(Bin_Color.show){//如果是未选中状态，并存入D_Color数组
-            if(this.D_Color == 0){
+            if(this.D_Color == 0){//判断颜色数组长度，为0的话，往下执行，不为0时，加载本身在加载尺寸函数
               if(this.D_Size == 0){//判断尺寸数组长度，为0的话，就隐藏本身
                 this.Lnone = "none"//隐藏
                 this.D_Color.push(//push：在最后面插入
@@ -234,7 +236,9 @@ export default {
               this.D_Color.push(//push：在最后面插入
                 Bin_Color.Bin_Color_Color//获取颜色传给左侧框中
               )
-              this.$options.methods.Bin_Size_img(Bin_Size)//Bin_Size undefined
+              // 调用尺寸函数
+              // this.$options.methods.Bin_Size_img(Bin_Size)//Bin_Size undefined
+              this.Bin_Size_img(this.aa.Bin_Size)
             }
           }else{
             for(var i=0 ; i<this.D_Color.length; i++ ){
@@ -295,8 +299,15 @@ export default {
         //删除第四行
         Delete:function(index){
           this.RightEdits.splice(index,1)               
+        },
+        // 点击填充
+        addBin_Filling:function(newJiage){
+          // this.D_Size.push({
+             this.a123 = newJiage
+          // })
         }
       },
+      
        updated () {//钩子 实时加载 左侧等于右侧
         this.Bin_Cfn_Body_Content_L_h = this.$refs.Bin_Cfn_Body_Content_R.offsetHeight - 1
         //获取右侧高度    
@@ -669,7 +680,7 @@ ul li span{
   float: left;
 }
 .input_ing_one{
-  width: 115px;
+  width: 60px;
   margin: 0 10px;
   height: 30px;
   color: #b6b6b6;
