@@ -171,6 +171,7 @@ export default {
           belowHeight: '',
           isShow:false,
           Bin_Cfn_Body_Content_L_h:'',
+          aa:[],
           Lnone:'',
           Rnone:'',
           D_Color:[],
@@ -217,16 +218,23 @@ export default {
           Bin_Color.show = !Bin_Color.show//点击图片添加class active
           this.D_Color.push()//改变class有无 显示不同图片
           if(Bin_Color.show){//如果是未选中状态，并存入D_Color数组
-            if(this.D_Size.length == 0){//判断尺寸数组长度，为0的话，就隐藏本身
-              this.Lnone = "none"//隐藏
-              this.D_Color.push(//push：在最后面插入
-                // Bin_Color.Bin_Color_Color//获取颜色传给左侧框中
-              ) 
+            if(this.D_Color == 0){
+              if(this.D_Size == 0){//判断尺寸数组长度，为0的话，就隐藏本身
+                this.Lnone = "none"//隐藏
+                this.D_Color.push(//push：在最后面插入
+                  Bin_Color.Bin_Color_Color//获取颜色传给左侧框中
+                ) 
+              }else{
+                this.Rnone = "block"//显示尺寸    
+                this.D_Color.push(//push：在最后面插入
+                  Bin_Color.Bin_Color_Color//获取颜色传给左侧框中
+                )
+              }
             }else{
-              this.Rnone = "block"//显示尺寸    
               this.D_Color.push(//push：在最后面插入
                 Bin_Color.Bin_Color_Color//获取颜色传给左侧框中
               )
+              this.$options.methods.Bin_Size_img(Bin_Size)//Bin_Size undefined
             }
           }else{
             for(var i=0 ; i<this.D_Color.length; i++ ){
@@ -240,6 +248,7 @@ export default {
         },
         // 点击尺寸
         Bin_Size_img:function(Bin_Size){
+          this.aa = [Bin_Size]
           // Bin_Size.check = !Bin_Size.check,//第二次点击 配合切换图片路径
           Bin_Size.show = !Bin_Size.show//点击图片添加class active
           if(Bin_Size.show){
